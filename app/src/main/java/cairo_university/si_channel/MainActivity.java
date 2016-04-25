@@ -30,4 +30,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
     
+	
+    public void Sign_in(View view)
+    {
+        String USER=e[0].getText().toString();
+        String Pass=e[1].getText().toString();
+
+        Cursor C=QM.isUser(USER, Pass);
+
+
+        if (C.moveToFirst())
+        //change last time log in
+        {
+            Toast.makeText(this.getApplicationContext(), "Successfully signed in :D", Toast.LENGTH_LONG).show();
+            User=USER;
+            Type=0;
+            Intent intent =new Intent(this.getApplicationContext(),Home.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Cursor c2 = QM.isInst(USER,Pass);
+            if (c2.moveToFirst())
+            {
+                User=USER;
+                Type=1;
+                Toast.makeText(this.getApplicationContext(), "Successfully signed in :D", Toast.LENGTH_LONG).show();
+                Intent intent =new Intent(this.getApplicationContext(),Home.class);
+                startActivity(intent);
+            }
+            else
+                Toast.makeText(this.getApplicationContext(), "User Name or password is wrong", Toast.LENGTH_LONG).show();
+        }
+
 }
