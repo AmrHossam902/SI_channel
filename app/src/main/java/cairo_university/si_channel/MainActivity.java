@@ -63,4 +63,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this.getApplicationContext(), "User Name or password is wrong", Toast.LENGTH_LONG).show();
         }
 
+		        C.close();
+    }
+
+    public static int getType() {return Type;}
+    public static String getUser()
+    {
+        return User;
+    }
+
 }
