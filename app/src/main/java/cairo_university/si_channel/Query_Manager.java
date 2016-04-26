@@ -63,7 +63,7 @@ public class Query_Manager {
     }
 
     public Cursor selectCommentsByDiscID(int id) {
-        Sql="Select Content as _id,Name from Comment,Stud where Post_id=\"1\" and Maker_id=Stud.ID";
+        Sql="Select Content as _id,Name from Comment,Stud where Post_id='"+id+"' and Maker_id=Stud.ID";
         return DBM.ExecuteSelect(Sql);
 
     }
