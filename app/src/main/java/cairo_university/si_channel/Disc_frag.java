@@ -47,8 +47,43 @@ public class Disc_frag extends Fragment {
         C.moveToFirst();
         Information_adapter I=new Information_adapter(Home.X,C,0);
         LV.setAdapter(I);
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                C.moveToPosition(i);
+                int id =C.getInt(C.getColumnIndex("ID"));
+                Intent I=new Intent(Home.X,Post_Comment.class);
+                I.putExtra("POST_ID",id);
+                startActivity(I);
+            }
+        });
+        B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                post(view);
+                return;
+            }
+        });
 
 
         return view;
+    }
+	
+	
+	public void post(View view)
+    {
+        String x=ET.getText().toString();
+        if (x.isEmpty())
+            return;
+        QM.InsertPost(x,System.currentTimeMillis(),MainActivity.getUser());
+        C=QM.Select_Disc();
+        C.moveToFirst();
+        Information_adapter I=new Information_adapter(Home.X,C,0);
+        LV.setAdapter(I);
+        ET.setText("");
+        return;
+
+
     }
 }
