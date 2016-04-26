@@ -48,6 +48,19 @@ public class Add_Delete_user extends Fragment {
         Delete=(Button) view.findViewById(R.id.button5);
          final EditText ET=(EditText)view.findViewById(R.id.editText3);
 
+        Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ET.getText().toString().isEmpty())
+                    return;
+                else if(ET.getText().toString().equals(MainActivity.getUser()))
+                    Toast.makeText(Home.X,"Can't Delete Yourself",Toast.LENGTH_SHORT).show();
+                if (Sp.getSelectedItemPosition() == 0)
+                    QM.Delete_Student(ET.getText().toString());
+                else
+                    QM.Delete_Instructor(ET.getText().toString());
+            }
+        });
 
         return view;
     }
