@@ -43,6 +43,18 @@ public class Add_student extends AppCompatActivity {
         B=(Button)findViewById(R.id.button6);
         QM=Query_Manager.Create_manager(this.getApplicationContext());
         
+        B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 long y = QM.insertStudent(id, ET[0].getText().toString(), ET[1].getText().toString(),  Sp.getSelectedItemPosition()+1);
+
+                 if (y == -1)
+                     Toast.makeText(C, "This id is already exist", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(C, "Done Adding!", Toast.LENGTH_SHORT).show();
+                Intent I=new Intent(C,Home.class);
+                startActivity(I);
+            }
+        });
     }
 
     @Override
