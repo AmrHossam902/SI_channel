@@ -62,6 +62,24 @@ public class Add_Delete_user extends Fragment {
             }
         });
 
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Sp.getSelectedItemPosition() == 0)
+                {
+                    Intent I=new Intent(Home.X,Add_student.class);
+                    I.putExtra("ID",ET.getText().toString());
+                    startActivity(I);
+                }
+                else
+                {
+                    Intent I=new Intent(Home.X,Add_Inst.class);
+                    I.putExtra("ID",ET.getText().toString());
+                    startActivity(I);
+                }
+            }
+        });
+
         return view;
     }
 
