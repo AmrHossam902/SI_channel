@@ -51,6 +51,21 @@ public class Admin_info extends Fragment {
         Sp.setAdapter(adapter);
         final EditText ET=(EditText)view.findViewById(R.id.editText4);
 
+
+        B=(Button)view.findViewById(R.id.button3);
+        B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (ET.getText().toString().isEmpty())
+                    return;
+                QM.Add_info(ET.getText().toString(),(int)Sp.getSelectedItem());
+                C=QM.Select_info_of_id(MainActivity.getUser());
+                My_info_adapter I=new My_info_adapter(Home.X,C,0);
+                LV.setAdapter(I);
+            }
+        });		
+		
         return view;
     }
 
