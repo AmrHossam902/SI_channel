@@ -53,6 +53,24 @@ public class Post_Comment extends AppCompatActivity {
         LV.setAdapter(I);
     }
 
+    private void initializepost() {
+
+        C.moveToFirst();
+        TextView TV[];
+        TV=new TextView[3];
+
+        TV[0]=(TextView)findViewById(R.id.textView);
+        TV[1]=(TextView)findViewById(R.id.textView2);
+        TV[2]=(TextView)findViewById(R.id.textView3);
+        TV[0].setText(C.getString(C.getColumnIndex("Name")));
+        TV[1].setText(C.getString(C.getColumnIndex("_id")));
+
+        double d=C.getDouble(C.getColumnIndexOrThrow("Date_time"));
+        double x=System.currentTimeMillis();
+        int Creation= (int) ((x-d)/60000);
+        TV[2].setText(Creation+" minutes ago.");
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +81,16 @@ public class Post_Comment extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
- 
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }
