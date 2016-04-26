@@ -1,4 +1,3 @@
-rial_7;
 
 import android.content.Context;
 import android.database.Cursor;
