@@ -1,0 +1,56 @@
+package com.example.antou.trial_7;
+
+
+import android.app.Dialog;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class Add_Delete_user extends Fragment {
+
+
+    public Add_Delete_user() {
+        // Required empty public constructor
+    }
+    Query_Manager QM;
+    Spinner Sp;
+    Button add;
+    Button Delete;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view=inflater.inflate(R.layout.fragment_add__delete_user, container, false);
+        QM=Query_Manager.Create_manager(Home.X);
+        Sp=(Spinner)view.findViewById(R.id.spinner2);
+        Sp.setSelection(0);
+        String arr[]=new String[2];
+        arr[0]="Student";
+        arr[1]="Instructor";
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.X, android.R.layout.simple_spinner_dropdown_item, arr);
+        Sp.setAdapter(adapter);
+        add=(Button)view.findViewById(R.id.button4);
+        Delete=(Button) view.findViewById(R.id.button5);
+         final EditText ET=(EditText)view.findViewById(R.id.editText3);
+
+
+        return view;
+    }
+
+
+}
