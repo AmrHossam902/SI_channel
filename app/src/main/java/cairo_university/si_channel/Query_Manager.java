@@ -1,102 +1,412 @@
-package com.example.antou.trial_7;
+package cairo_university.si_channel2;
 
-import android.content.Context;
-import android.database.Cursor;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.concurrent.ExecutionException;
 
+/**
+ * Created by AMR on 5/2/2016.
+ */
 public class Query_Manager {
 
-    static Query_Manager _instance;
-    public static Query_Manager Create_manager(Context C)
+    DB_Manager model_class;
+    private String result;
+
+    static int clones=0;
+    static Query_Manager QM;
+    public Query_Manager()
     {
-        if(!clones)
-        {
-            clones=true;
-            _instance=new Query_Manager(C);
+        model_class = new DB_Manager();
+    }
+
+    public static  Query_Manager  Create_QM()
+    {
+        if(clones ==0) {
+            clones++;
+            QM = new  Query_Manager();
         }
-        return _instance;
-    }
-	
-    protected Query_Manager(Context C) {
-        this.DBM =new DataBase_Manager(C);
+            return QM;
     }
 
 
+    int Insert_student(int ID, String name, int Grade, String password){
+        String SQL = "insert into student values('"+ name +"'," +ID+ "," +Grade+ ",'" +password+ "');";
 
-    public Cursor Select_info(String ID)
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;
+    }
+
+
+    int Insert_Ad_ins(String name, int ID, String Type, String password)  // password and type are limited to 10 chars
     {
-        Sql="Select INS_ADM.NAME as _id,Content,Date_time from Stud,Info_Post,INS_ADM where Stud.id='"+ID+"' and Stud.AC_YEAR=Info_Post.Grade and INS_ADM.ID=Info_Post.Inst_ID";
-        return DBM.ExecuteSelect(Sql);
-    }
-    public Cursor Select_Disc()
+        String SQL = "insert into i_a values('"+name+"',"+ID+",'"+Type+"','"+password+"');";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;    }
+
+
+    int Insert_home_post(int IA_ID, int Grade_year, String Date, String Content)
     {
-        Sql = "SELECT Name as _id,Disc_Post.ID,Content,Date_time FROM Disc_Post ,Stud where Maker_id=Stud.ID order by Date_time DESC";
-        return DBM.ExecuteSelect(Sql);
+        String SQL = "insert into home_post(IA_ID, Grade_year, Creation_date, Content) values("+IA_ID+","+Grade_year+",'"+Date+"','"+Content+"');";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;
     }
 
-
-    public Cursor isUser(String USER,String PASS)
+    int Insert_disc_post(int stud_ID, String C_date, String content)
     {
-        Sql="SELECT  * FROM Stud where ID = '"+USER+"' AND Pass = '"+PASS+"'";
-        return DBM.ExecuteSelect(Sql);
+        String SQL = "insert into disc_post(stud_id, creation_date, content) values("+stud_ID+",'"+C_date+"','"+content+"');";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;
     }
 
-    public void Backup()
+
+    int Insert_Question(int surv_id, int qnum, String Quest, String Ans)
     {
-        DBM.Backup();
+        String SQL = "insert into survey_quest("+surv_id+","+qnum+",'"+Quest+"','"+Ans+"');";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;    }
+
+    int Insert_comment(int s_id, int P_id, String content)
+    {
+        String SQL="insert into comments(s_id, P_id, content) values("+s_id+","+P_id+",'"+content+"');";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;
     }
 
-    public Cursor isInst(String user, String pass) {
-        Sql="SELECT  * FROM INS_ADM where ID = '"+user+"' AND Password = '"+pass+"'";
-        return DBM.ExecuteSelect(Sql);
+    int Insert_survey(int A_I_ID, int Grade, String Description)
+    {
+        String SQL = "insert into survey(Ins_Adm_Id, Grade, Description) values("+A_I_ID+","+Grade+","+Description+");";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;
     }
 
-    public long InsertPost(String content, long Time, String user) {
-        Sql="insert into Disc_Post(Content,Date_time,Maker_id) values('"+content+"','"+Time+"','"+user+"')";
-        return DBM.ExecuteInsert(Sql);
+    int Insert_Ans(int Q_num, int surv_ID, int stud_ID, String Answer)
+    {
+        String SQL = "insert into stud_ans("+Q_num+","+surv_ID+","+stud_ID+",'"+Answer+"');";
+        try {
+            result = new DB_Manager().execute(SQL, "insert").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;
     }
 
-    public Cursor selectDiscByID(int id) {
-        Sql="select Content as _id,Date_time,Name from Disc_Post,Stud where Disc_Post.ID='"+id+"'and Maker_id=Stud.ID";
-        return DBM.ExecuteSelect(Sql);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////SELECTION/////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    JSONArray select_studs()
+    {
+        String SQL= "select * from student;";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "student").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public Cursor selectCommentsByDiscID(int id) {
-        Sql="Select Content as _id,Name from Comment,Stud where Post_id='"+id+"' and Maker_id=Stud.ID";
-        return DBM.ExecuteSelect(Sql);
 
+    JSONArray select_stud(int ID, String pass)
+    {
+        String SQL= "select * from student where ID="+ID+" and PassWord='"+pass+"';";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "student").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public long insertComment(String x,int id) {
-        Sql="insert into Comment(Content,Post_id,Maker_id) values('"+x+"',"+id+","+MainActivity.getUser()+")";
-        return DBM.ExecuteInsert(Sql);
+
+    JSONArray select_IA(int ID, String pass)
+    {
+        String SQL= "select * from i_a where ID="+ID+" and PASSWORD='"+pass+"';";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "i_a").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public Cursor Select_info_of_id(String user) {
-        Sql="Select Content as _id ,Date_time,Grade from Info_Post,INS_ADM where INS_ADM.ID=Info_Post.Inst_ID and INS_ADM.ID='"+user+"'";
-        return DBM.ExecuteSelect(Sql);
+
+    JSONArray Select_home_posts_by_IA(int ID)
+    {
+        String SQL= "select * from home_post where IA_ID= "+ID+" order by ID asc;";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "home_post").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public Long Add_info(String s,int Grade) {
-        Sql="insert into Info_Post(Content,Date_time,Inst_ID,Grade) Values ('"+s+"','"+System.currentTimeMillis()+"','"+MainActivity.getUser()+"','"+Grade+"');";
-        return DBM.ExecuteInsert(Sql);
 
+    JSONArray select_home_post_by_stud(int Grade)
+    {
+        String SQL = "select * from home_post where Grade_year="+Grade+" order by ID asc;";
+        try {
+            result= new DB_Manager().execute(SQL, "select", "home_post").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public long Delete_Instructor(String id) {
-
-        return DBM.ExecuteDelete("INS_ADM", "ID = '" + id + "'");
+    JSONArray select_home_post_by_stud2(int Grade)
+    {
+        String SQL = "SELECT i_a.Name, home_post.IA_ID, home_post.Grade_year, home_post.Creation_date, home_post.Content, home_post.ID FROM i_a, home_post WHERE i_a.ID = home_post.IA_ID AND home_post.Grade_year = "+Grade+ " ORDER BY home_post.ID;";
+        try{
+        result= new DB_Manager().execute(SQL, "select", "home_post_IA").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public long Delete_Student(String s) {
-        return DBM.ExecuteDelete("Stud", "ID = '" + s + "'");
+    JSONArray select_disc_posts()
+    {
+        String SQL = "select * from disc_post order by creation_date;";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "disc_post").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
     }
 
-    public long insertStudent(String id, String s, String s1, int selectedItem) {
-        Sql="insert into Stud values('"+id+"','"+s+"','"+s1+"','"+selectedItem+"')";
-        return DBM.ExecuteInsert(Sql);
+    JSONArray select_disc()
+    {
+        String SQL = "SELECT disc_post.creation_date, disc_post.content , student.Name, disc_post.ID FROM disc_post, student WHERE student.ID = disc_post.stud_id ORDER by disc_post.ID";
 
+        try {
+            result = new DB_Manager().execute(SQL, "select" ,"disc_post_stud").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return  parse_JSON(result);
     }
-	
+
+    JSONArray select_disc_by_ID(int ID)
+    {
+        String SQL = "select * from disc_post where ID = "+ID+";";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "disc_post").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
+    }
+
+    JSONArray select_disc_by_ID2(int ID)
+    {
+        String SQL = "SELECT disc_post.creation_date, disc_post.content , student.Name, disc_post.ID " +
+                "FROM disc_post, student " +
+                "WHERE student.ID = disc_post.stud_id and disc_post.ID= "+ID+";";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "disc_post_stud").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
+    }
+
+    JSONArray select_comments(int P_id)
+    {
+        String SQL = "SELECT comments.ID, comments.s_id, comments.P_id, comments.content , student.Name " +
+                "FROM comments, student " +
+                "WHERE student.ID = comments.s_id and P_id = "+P_id+" " +
+                "ORDER BY comments.ID;";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "comments").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
+    }
+
+    JSONArray select_surveys_IA(int IA_ID)
+    {
+        String SQL = "select Description, Grade from survey where Ins_Adm_ID="+IA_ID+";";
+        try {
+            result = new DB_Manager().execute(SQL, "select", "survey").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
+    }
+
+    JSONArray select_surveys_stud(int Grade)
+    {
+        String SQL = "select * from survey where Grade="+Grade+";";
+        try {
+            result = new DB_Manager().execute(SQL, "select").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return parse_JSON(result);
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////DELETION////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    int Delete_student(int ID)
+    {
+        String SQL = "Delete from student where ID="+ID+";";
+        try {
+            result = new DB_Manager().execute(SQL, "Delete").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;    }
+
+    int delete_inst(int ID)
+    {
+        String SQL = "Delete from i_a where ID="+ID+";";
+        try {
+            result = new DB_Manager().execute(SQL, "Delete").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.contains("success"))
+            return 1;
+        else
+            return 0;    }
+
+    public void setResult( String R)
+    {
+        result = R;
+    }
+
+
+    JSONArray parse_JSON(String s)
+    {
+        try {
+            JSONObject JO=new JSONObject(s);
+            JSONArray JA = JO.getJSONArray("server_response");
+            return JA;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
