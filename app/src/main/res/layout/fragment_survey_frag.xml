@@ -2,14 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
     android:layout_height="match_parent" tools:context="com.example.antou.trial_7.Survey_frag">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Coming very soon"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="50sp"
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Survey"
+        android:id="@+id/button7"
+        android:layout_gravity="right|top" />
 
-        />
+    <ListView
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView5"
+        android:layout_gravity="center" />
 
+    <Spinner
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/spinner4"
+        android:layout_gravity="center_horizontal|top" />
 </FrameLayout>
