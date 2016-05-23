@@ -1,18 +1,21 @@
-package com.example.antou.trial_7;
+package cairo_university.si_channel2;
 
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import org.json.JSONArray;
 
 
 /**
@@ -35,13 +38,17 @@ public class Admin_info extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        QM=Query_Manager.Create_manager(Home.X);
-        C=QM.Select_info_of_id(MainActivity.getUser());
+        QM=Query_Manager.Create_QM();
         View view = inflater.inflate(R.layout.fragment_admin_info, container, false);
+
+        JSONArray my_posts = QM.Select_home_posts_by_IA(Integer.parseInt(MainActivity.getUser()));
         LV=(ListView)view.findViewById(R.id.listView4);
-        My_info_adapter I=new My_info_adapter(Home.X,C,0);
+
+        IA_info_adapter I=new IA_info_adapter(Home.X,my_posts);
         LV.setAdapter(I);
+
         // Inflate the layout for this fragment
+
         Sp=(Spinner)view.findViewById(R.id.spinner);
         Sp.setSelection(0);
         Integer arr[]=new Integer[4];
@@ -51,21 +58,23 @@ public class Admin_info extends Fragment {
         Sp.setAdapter(adapter);
         final EditText ET=(EditText)view.findViewById(R.id.editText4);
 
-
         B=(Button)view.findViewById(R.id.button3);
         B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (ET.getText().toString().isEmpty())
+                {
+                    Toast.makeText(Home.X,"you should add a content", Toast.LENGTH_LONG).show();
                     return;
-                QM.Add_info(ET.getText().toString(),(int)Sp.getSelectedItem());
-                C=QM.Select_info_of_id(MainActivity.getUser());
-                My_info_adapter I=new My_info_adapter(Home.X,C,0);
+                }
+                QM.Insert_home_post(Integer.parseInt(MainActivity.getUser().toString()) ,Integer.parseInt(Sp.getSelectedItem().toString()),"Date",ET.getText().toString());
+                JSONArray JO= QM.Select_home_posts_by_IA(Integer.parseInt(MainActivity.getUser()));
+                IA_info_adapter I=new IA_info_adapter(Home.X,JO);
                 LV.setAdapter(I);
             }
-        });		
-		
+        });
+
         return view;
     }
 
