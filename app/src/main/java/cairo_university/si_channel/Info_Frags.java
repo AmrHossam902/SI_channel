@@ -1,18 +1,20 @@
-package com.example.antou.trial_7;
+package cairo_university.si_channel2;
 
 
-import android.app.DownloadManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
+import org.json.JSONArray;
 
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class Info_Frags extends Fragment {
     Query_Manager QM;
     Cursor C;
@@ -25,16 +27,19 @@ public class Info_Frags extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        QM=Query_Manager.Create_manager(Home.X);
-        C=QM.Select_info(MainActivity.getUser());
+        QM=Query_Manager.Create_QM();
+        JSONArray JA = QM.select_home_post_by_stud2(MainActivity.G_year);
         View view = inflater.inflate(R.layout.fragment_info__frags, container, false);
+
         LV=(ListView)view.findViewById(R.id.listView);
-        //Create the adapter
-        C.moveToFirst();
-        Information_adapter I=new Information_adapter(Home.X,C,0);
-        LV.setAdapter(I);
-
-
+        stud_info_adapter adapter = new stud_info_adapter(JA,Home.X);
+        LV.setAdapter(adapter);
+//        //Create the adapter
+//        C.moveToFirst();
+//        Information_adapter I=new Information_adapter(Home.X,C,0);
+//        LV.setAdapter(I);
+//
+//
 
         // Inflate the layout for this fragment
         return view;
