@@ -1,33 +1,64 @@
-package com.example.antou.trial_7;
+package cairo_university.si_channel2;
 
+import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 
-public class Comment_Adapter extends CursorAdapter {
+import java.util.zip.Inflater;
 
-    public Comment_Adapter(Context context, Cursor c, int flags) {
-        super(context, c, flags);
+/**
+ * Created by AMR on 5/6/2016.
+ */
+public class Comment_Adapter extends BaseAdapter {
+
+    JSONArray comments;
+    Context home;
+    public Comment_Adapter(JSONArray c, Context ctxt)
+    {
+        comments =c;
+        home = ctxt;
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.comment_item_view, viewGroup, false);
-
+    public int getCount() {
+        return comments.length();
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public Object getItem(int position) {
+        return null;
+    }
 
-        TextView Ins_name = (TextView) view.findViewById(R.id.textView4);
-        TextView Post_content = (TextView) view.findViewById(R.id.textView5);
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        Ins_name.setText(cursor.getString(cursor.getColumnIndex("Name"))+": ");
-        Post_content.setText(cursor.getString(cursor.getColumnIndex("_id")));
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        LayoutInflater inflater = ((Activity)home).getLayoutInflater();
+        View Item = inflater.inflate(R.layout.comment_item_view, null, true);
+
+        TextView Name = (TextView)Item.findViewById(R.id.textView4);
+        TextView Content = (TextView)Item.findViewById(R.id.textView5);
+
+        try {
+
+            Name.setText(comments.getJSONObject(position).getString("Name")+" :");
+            Content.setText(comments.getJSONObject(position).getString("content"));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Item;
     }
 }
