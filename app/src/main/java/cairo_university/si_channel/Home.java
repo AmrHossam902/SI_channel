@@ -1,4 +1,4 @@
-package com.example.antou.trial_7;
+package cairo_university.si_channel2;
 
 
 import android.content.Context;
@@ -17,7 +17,7 @@ public class Home extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        X = getApplicationContext();
+        X = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         if (MainActivity.getType() == 0) {
@@ -25,7 +25,7 @@ public class Home extends AppCompatActivity {
             VP = (ViewPager) findViewById(R.id.viewPager);
             ViewPagerAdapter VPA = new ViewPagerAdapter(getSupportFragmentManager());
             VPA.add_fragements(new Info_Frags(), "Information");
-            VPA.add_fragements(new Survey_frag(), "Survey");
+            VPA.add_fragements(new Student_Survey_frag(), "Survey");
             VPA.add_fragements(new Disc_frag(), "Discussion");
             VP.setAdapter(VPA);
             TL.setupWithViewPager(VP);
@@ -36,31 +36,35 @@ public class Home extends AppCompatActivity {
             VP = (ViewPager) findViewById(R.id.viewPager);
             ViewPagerAdapter VPA = new ViewPagerAdapter(getSupportFragmentManager());
             VPA.add_fragements(new Admin_info() , "My Information");
-            VPA.add_fragements(new Survey_frag(), "Survey");
+            VPA.add_fragements(new IA_Survey_frag(), "Survey");
+
+            if(MainActivity.IA_type.equals("Admin"))
             VPA.add_fragements(new Add_Delete_user(), "Control Users");
+
             VP.setAdapter(VPA);
             TL.setupWithViewPager(VP);
         }
     }
-	    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_home, menu);
+//        return true;
+//    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }
