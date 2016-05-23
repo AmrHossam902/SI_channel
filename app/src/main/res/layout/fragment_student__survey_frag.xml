@@ -1,0 +1,9 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.antou.trial_7.Student_Survey_frag">
+
+    <TextView android:layout_width="144dp" android:layout_height="59dp"
+        android:text="@string/hello_blank_fragment" />
+
+</FrameLayout>
