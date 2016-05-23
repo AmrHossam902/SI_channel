@@ -1,4 +1,4 @@
-package com.example.antou.trial_7;
+package cairo_university.si_channel2;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
